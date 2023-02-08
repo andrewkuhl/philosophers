@@ -1,5 +1,7 @@
 add_executable(philosophers
         main.c
+        LED.c
+        LED.h
 )
 
 target_link_libraries(philosophers pico_stdlib freertos)
