@@ -1,18 +1,32 @@
 #include <FreeRTOS.h>
 #include <task.h>
 #include <stdio.h>
-#include "LED.h"
+#include "pico/stdlib.h"
 
-void init()
+void phil(uint pin)
 {
-    init_pins();
-    wave();
+    while(true)
+    {
+        gpio_put(pin, 1);
+        vTaskDelay(50);
+        gpio_put(pin,0);
+        vTaskDelay(50);
+    }
 }
+
 int main()
 {
     stdio_init_all();
 
-    xTaskCreate(init, "init", 256, NULL, 1, NULL);
+    for(uint pin=2;pin<10;pin++){
+        gpio_init(pin);
+        gpio_set_dir(pin, GPIO_OUT);
+    }
+
+    for(uint i = 2; i < 10; i++)
+    {
+        xTaskCreate(phil, "phil", 256, i, 1, NULL);
+    }
     
     vTaskStartScheduler();
 
