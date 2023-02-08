@@ -3,25 +3,24 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 
-
-void led_task()
-{   
-    const uint LED_PIN = 0;
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
-    while (true) {
-        gpio_put(LED_PIN, 1);
-        vTaskDelay(100);
-        gpio_put(LED_PIN, 0);
-        vTaskDelay(100);
-    }
+void init_pins()
+{
+    uint pin = 2;
+    gpio_init(pin);
+    gpio_set_dir(pin, GPIO_OUT);
+}
+void LED_ON(uint PIN)
+{
+    gpio_put(PIN, 1);
 }
 
 int main()
 {
     stdio_init_all();
 
-    xTaskCreate(led_task, "LED_Task", 256, NULL, 1, NULL);
+    xTaskCreate(init_pins, "init_pins", 256, NULL, 1, NULL);
+    xTaskCreate(LED_ON, "led on", 256, 2, 1, NULL);
+    
     vTaskStartScheduler();
 
     while(1){};
