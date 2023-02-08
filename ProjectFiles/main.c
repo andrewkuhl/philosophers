@@ -29,11 +29,6 @@ void wave()
     }
 }
 
-void LED_ON(uint PIN)
-{
-    gpio_put(PIN, 1);
-}
-
 int main()
 {
     stdio_init_all();
